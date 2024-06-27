@@ -7,6 +7,7 @@ import (
 	"image/jpeg"
 	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 	"sync"
 
@@ -49,8 +50,12 @@ func WriteInImage(input *WriteInImageInput) {
 	newImg := image.NewRGBA(bounds)
 
 	draw.Draw(newImg, bounds, img, bounds.Min, draw.Src)
-
-	fontBytes, err := os.ReadFile("../../fonts/Corinthia-Bold.ttf")
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("failed to get current working directory: %v", err)
+	}
+	relativePath := filepath.Join(cwd, "fonts/Corinthia-Bold.ttf")
+	fontBytes, err := os.ReadFile(relativePath)
 	if err != nil {
 		log.Fatalf("failed to read font: %v", err)
 	}
