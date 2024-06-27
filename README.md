@@ -15,4 +15,4 @@ O caminho não poderá conter espaços, pois o programa não está tratando isso
 
 ### Exemplo
 
-O arquivo `nomes.txt` contém os nomes que serão escritos na imagem. O arquivo `template1.jpg` é a imagem que será utilizada como base para escrever os nomes. O diretório `saida` é onde as imagens com os nomes escritos serão salvas.
+O arquivo `nomes.txt` contém os nomes que serão escritos na imagem. O arquivo `template1.jpg` é a imagem que será utilizada como base para escrever os nomes. O diretório `saida` é onde as imagens com os nomes escritos serão salvas e o número `72` é o tamanho da fonte que será utilizada para escrever os nomes.
