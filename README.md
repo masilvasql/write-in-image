@@ -7,7 +7,7 @@ Esse projeto tem como objetivo escrever textos em imagens, utilizando a linguage
 Para utilizar o projeto, basta clonar o repositório e executar o comando abaixo:
 
 ```bash
-go run main.go D:\TEMP\go\write-in-image\examples\nomes.txt D:\TEMP\saida D:\TEMP\go\write-in-image\examples\template1.jpg 72
+go run cmd/cli/main.go D:/TEMP/go/write-in-image/examples/nomes.txt D:/TEMP/saida D:/TEMP/go/write-in-image/examples/template1.jpg 72
 ```
 
 Lembre de alterar os caminhos dos arquivos de acordo com o seu ambiente.
