@@ -12,6 +12,7 @@ import (
 	"sync"
 
 	"github.com/golang/freetype"
+	"github.com/golang/freetype/truetype"
 )
 
 type WriteInImageInput struct {
@@ -30,11 +31,9 @@ func NewWriteInImageInput(name, templatePath, outputPath, fontSize string, wg *s
 		FontSize:     fontSize,
 		Wg:           wg,
 	}
-
 }
 
 func WriteInImage(input *WriteInImageInput) {
-
 	imgFile, err := os.Open(input.TemplatePath)
 	if err != nil {
 		log.Fatalf("failed to open image: %v", err)
@@ -76,7 +75,20 @@ func WriteInImage(input *WriteInImageInput) {
 	c.SetDst(newImg)
 	c.SetSrc(image.Black)
 
-	pt := freetype.Pt(500, 650+int(c.PointToFixed(40)>>6))
+	// Calcula a largura do texto
+	face := truetype.NewFace(font, &truetype.Options{Size: tamanhoFonte})
+	textWidth := 0
+	for _, char := range input.Name {
+		awidth, ok := face.GlyphAdvance(rune(char))
+		if ok {
+			textWidth += awidth.Round()
+		}
+	}
+
+	// Centraliza o texto
+	imageWidth := bounds.Dx()
+	x := (imageWidth - textWidth) / 2
+	pt := freetype.Pt(x, 650+int(c.PointToFixed(40)>>6))
 
 	_, err = c.DrawString(input.Name, pt)
 	if err != nil {
@@ -84,9 +96,9 @@ func WriteInImage(input *WriteInImageInput) {
 	}
 
 	fullOutputPath := fmt.Sprintf("%s/%s.jpg", input.OutputPath, input.Name)
-	// verifica se o diretório de saída existe
+	// Verifica se o diretório de saída existe
 	if _, err := os.Stat(input.OutputPath); os.IsNotExist(err) {
-		// se não existir, cria
+		// Se não existir, cria
 		err = os.Mkdir(input.OutputPath, 0755)
 		if err != nil {
 			log.Fatalf("failed to create output directory: %v", err)
