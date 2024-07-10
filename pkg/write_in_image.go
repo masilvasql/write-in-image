@@ -20,15 +20,17 @@ type WriteInImageInput struct {
 	TemplatePath string
 	OutputPath   string
 	FontSize     string
+	AlturaTexto  string
 	Wg           *sync.WaitGroup
 }
 
-func NewWriteInImageInput(name, templatePath, outputPath, fontSize string, wg *sync.WaitGroup) *WriteInImageInput {
+func NewWriteInImageInput(name, templatePath, outputPath, fontSize, alturaTexto string, wg *sync.WaitGroup) *WriteInImageInput {
 	return &WriteInImageInput{
 		Name:         name,
 		TemplatePath: templatePath,
 		OutputPath:   outputPath,
 		FontSize:     fontSize,
+		AlturaTexto:  alturaTexto,
 		Wg:           wg,
 	}
 }
@@ -85,10 +87,15 @@ func WriteInImage(input *WriteInImageInput) {
 		}
 	}
 
+	alturaTextoInt, err := strconv.Atoi(input.AlturaTexto)
+	if err != nil {
+		log.Fatalf("failed to parse text height: %v", err)
+	}
+
 	// Centraliza o texto
 	imageWidth := bounds.Dx()
 	x := (imageWidth - textWidth) / 2
-	pt := freetype.Pt(x, 650+int(c.PointToFixed(40)>>6))
+	pt := freetype.Pt(x, alturaTextoInt+int(c.PointToFixed(40)>>6))
 
 	_, err = c.DrawString(input.Name, pt)
 	if err != nil {
