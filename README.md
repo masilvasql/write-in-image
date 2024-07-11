@@ -7,7 +7,7 @@ Esse projeto tem como objetivo escrever textos em imagens, utilizando a linguage
 Para utilizar o projeto, basta clonar o repositório e executar o comando abaixo:
 
 ```bash
-go run cmd/cli/main.go D:/TEMP/go/write-in-image/examples/nomes.txt D:/TEMP/saida D:/TEMP/go/write-in-image/examples/template1.jpg 72 650
+go run cmd/cli/main.go D:/TEMP/go/write-in-image/examples/nomes.txt D:/TEMP/saida D:/TEMP/go/write-in-image/examples/template1.jpg 72 650 d63031
 ```
 > cmd/cli/main.go D:/TEMP/go/write-in-image/examples/nomes.txt = Caminho do arquivo que contém os nomes que serão escritos na imagem
 <br>
@@ -21,7 +21,9 @@ go run cmd/cli/main.go D:/TEMP/go/write-in-image/examples/nomes.txt D:/TEMP/said
 > 72 = Tamanho da fonte que será utilizada para escrever os nomes
 <br>
 
-> 650 = Altura do texto que será escrito na imagem (parâmetro opcional)
+> 650 = Altura do texto que será escrito na imagem
+
+> d63031 = Cor do texto que será escrito na imagem. A cor deve ser informada em hexadecimal sem o `#`
 
 
 Lembre de alterar os caminhos dos arquivos de acordo com o seu ambiente.

@@ -3,12 +3,14 @@ package pkg
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"image/draw"
 	"image/jpeg"
 	"log"
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"sync"
 
 	"github.com/golang/freetype"
@@ -21,16 +23,18 @@ type WriteInImageInput struct {
 	OutputPath   string
 	FontSize     string
 	AlturaTexto  string
+	Color        string
 	Wg           *sync.WaitGroup
 }
 
-func NewWriteInImageInput(name, templatePath, outputPath, fontSize, alturaTexto string, wg *sync.WaitGroup) *WriteInImageInput {
+func NewWriteInImageInput(name, templatePath, outputPath, fontSize, alturaTexto, color string, wg *sync.WaitGroup) *WriteInImageInput {
 	return &WriteInImageInput{
 		Name:         name,
 		TemplatePath: templatePath,
 		OutputPath:   outputPath,
 		FontSize:     fontSize,
 		AlturaTexto:  alturaTexto,
+		Color:        color,
 		Wg:           wg,
 	}
 }
@@ -75,7 +79,11 @@ func WriteInImage(input *WriteInImageInput) {
 	c.SetFontSize(tamanhoFonte)
 	c.SetClip(bounds)
 	c.SetDst(newImg)
-	c.SetSrc(image.Black)
+	customColor, err := hexToRGBA(input.Color)
+	if err != nil {
+		log.Fatalf("failed to parse color: %v", err)
+	}
+	c.SetSrc(image.NewUniform(customColor))
 
 	// Calcula a largura do texto
 	face := truetype.NewFace(font, &truetype.Options{Size: tamanhoFonte})
@@ -125,4 +133,24 @@ func WriteInImage(input *WriteInImageInput) {
 
 	log.Println("Image processed and saved to output.jpg")
 	input.Wg.Done()
+}
+
+func hexToRGBA(hex string) (color.RGBA, error) {
+	hex = strings.TrimPrefix(hex, "#")
+	if len(hex) != 6 {
+		return color.RGBA{}, log.Output(1, "Invalid length of hex string")
+	}
+	r, err := strconv.ParseUint(hex[0:2], 16, 8)
+	if err != nil {
+		return color.RGBA{}, err
+	}
+	g, err := strconv.ParseUint(hex[2:4], 16, 8)
+	if err != nil {
+		return color.RGBA{}, err
+	}
+	b, err := strconv.ParseUint(hex[4:6], 16, 8)
+	if err != nil {
+		return color.RGBA{}, err
+	}
+	return color.RGBA{uint8(r), uint8(g), uint8(b), 0xff}, nil
 }

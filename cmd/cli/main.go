@@ -19,17 +19,15 @@ func main() {
 	}
 
 	alturaTexto := "650"
+	color := "2d3436"
 
 	filePath := os.Args[1]
 	outputPath := os.Args[2]
 	templatePath := os.Args[3]
 	fontSize := os.Args[4]
+	alturaTexto = os.Args[5]
 
-	fmt.Println("LEN ", len(os.Args))
-
-	if len(os.Args) > 5 && len(os.Args) <= 6 {
-		alturaTexto = os.Args[5]
-	}
+	color = os.Args[6]
 
 	startTime := time.Now()
 
@@ -43,7 +41,7 @@ func main() {
 	var wg sync.WaitGroup
 	for scanner.Scan() {
 		wg.Add(1)
-		input := pkg.NewWriteInImageInput(scanner.Text(), templatePath, outputPath, fontSize, alturaTexto, &wg)
+		input := pkg.NewWriteInImageInput(scanner.Text(), templatePath, outputPath, fontSize, alturaTexto, color, &wg)
 		go pkg.WriteInImage(input)
 	}
 	wg.Wait()
