@@ -131,7 +131,6 @@ func WriteInImage(input *WriteInImageInput) {
 		log.Fatalf("failed to encode image: %v", err)
 	}
 
-	log.Println("Image processed and saved to output.jpg")
 	input.Wg.Done()
 }
 

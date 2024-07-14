@@ -6,29 +6,41 @@ Esse projeto tem como objetivo escrever textos em imagens, utilizando a linguage
 
 Para utilizar o projeto, basta clonar o repositório e executar o comando abaixo:
 
+Você pode executar o comando abaixo para visualizar os parâmetros a serem informados:
+
 ```bash
-go run cmd/cli/main.go D:/TEMP/go/write-in-image/examples/nomes.txt D:/TEMP/saida D:/TEMP/go/write-in-image/examples/template1.jpg 72 650 d63031
+go run .\cmd\cli\main.go writeTextInImage -h
 ```
-> cmd/cli/main.go D:/TEMP/go/write-in-image/examples/nomes.txt = Caminho do arquivo que contém os nomes que serão escritos na imagem
-<br>
 
-> D:/TEMP/saida = Caminho do diretório onde as imagens com os nomes escritos serão salvas
-<br>
+Após isto você irá visualizar no terminal os parâmetros que devem ser informados para executar o programa.
 
-> D:/TEMP/go/write-in-image/examples/template1.jpg = Caminho da imagem que será utilizada como base para escrever os nomes
-<br>
+```bash
+You will be able to write text in an image with this command and some parameters like font, size, color, position, etc.
 
-> 72 = Tamanho da fonte que será utilizada para escrever os nomes
-<br>
+Usage:
+  write-in-image writeTextInImage [flags]
 
-> 650 = Altura do texto que será escrito na imagem
+Flags:
+  -f, --file string           File path With the text to write in the image (required)
+  -c, --font-color string     Font color (optional) default is black (default "000000")
+  -s, --font-size string      Font size (optional) default 72 (default "72")
+  -h, --help                  help for writeTextInImage
+  -o, --outoput-path string   Output path to save the new image (required)
+  -t, --template string       Template image path (required)
+  -a, --text-height string    Text height (optional) default 650 (default "650")
+  ```
 
-> d63031 = Cor do texto que será escrito na imagem. A cor deve ser informada em hexadecimal sem o `#`
+
+Você pode utilizar os shorthands para informar os parâmetros ou os nomes completos. Abaixo um exemplo de como utilizar o comando para escrever textos em imagens:
+
+Exempolo com ShortHand:
+```bash
+go run .\cmd\cli\main.go writeTextInImage -f "D:\Projetos_Pessoais\golang\write-in-image\examples\nomes.txt" -o D:/TEMP/saida -t  "D:\Projetos_Pessoais\golang\write-in-image\examples\template1.jpg" -s 120 -c 911414 
+```
+
+Exemplo com nome completo:
+```bash
+go run .\cmd\cli\main.go writeTextInImage --file "D:\Projetos_Pessoais\golang\write-in-image\examples\nomes.txt" --outoput-path D:/TEMP/saida --template "D:\Projetos_Pessoais\golang\write-in-image\examples\template1.jpg" --font-size 120 --font-color 911414
+```
 
 
-Lembre de alterar os caminhos dos arquivos de acordo com o seu ambiente.
-O caminho não poderá conter espaços, pois o programa não está tratando isso.
-
-### Exemplo
-
-O arquivo `nomes.txt` contém os nomes que serão escritos na imagem. O arquivo `template1.jpg` é a imagem que será utilizada como base para escrever os nomes. O diretório `saida` é onde as imagens com os nomes escritos serão salvas e o número `72` é o tamanho da fonte que será utilizada para escrever os nomes.
